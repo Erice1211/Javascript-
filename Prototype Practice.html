@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>繼承與原型鍊作業</title>
+</head>
+
+<body>
+    <script>
+        //HomeAppliance 建構函式
+
+        function HomeAppliance(machineLocation) {
+            this.kingdom = '家電界';
+            this.primaryLocation = machineLocation || '客廳'
+        }
+
+        //在上一層object原型加入自訂方法
+        HomeAppliance.prototype.consume = function () {
+            console.log(this.name + '會耗電!');
+        }
+
+        function Refrigerator(name, brand, size) {
+            HomeAppliance.call(this, '廚房');
+            this.name = name;
+            this.color = brand || 'LG';
+            this.size = size || 'medium';
+        }
+
+        Refrigerator.prototype = Object.create(HomeAppliance.prototype);
+
+        Refrigerator.prototype.constructor = Refrigerator;
+
+        Refrigerator.prototype.refrigeration = function () {
+            console.log(this.name + '用來冷藏!');
+        }
+
+        var refig = new Refrigerator('電冰箱', 'Samsung', 'large');
+
+        function Television(name, brand, size) {
+            HomeAppliance.call(this);
+            this.name = name;
+            this.color = brand || 'LG';
+            this.size = size || '55吋';
+        }
+
+        Television.prototype = Object.create(HomeAppliance.prototype);
+        Television.prototype.constructor = Television;
+        Television.prototype.view = function () {
+            console.log(this.name + '用來觀看!');
+        }
+        var tele = new Television('電視機', 'Samsung', '65吋');
+
+
+        tele.view();
+        tele.consume();
+        // tele.Refrigerator();
+
+        refig.refrigeration();
+        refig.consume();
+        refig.view();
+    </script>
+</body>
+
+</html>
